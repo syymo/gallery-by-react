@@ -1,27 +1,15 @@
 /* Base Application Styles */
-/* body {
-  color: #fff;
-  background: #222;
+
+@font-face {
+  font-family: "icons-turn-arrow";
+  src: url("../fonts/icons/turn-arrow.eot");
+  src: url("../fonts/icons/turn-arrow.eot") format("embedded-opentype"),
+        url("../fonts/icons/turn-arrow.woff") format("woff"),
+        url("../fonts/icons/turn-arrow.ttf") format("truetype"), 
+        url("../fonts/icons/turn-arrow.svg") format("svg");
 }
 
-.index img {
-  margin: 40px auto;
-  border-radius: 4px;
-  background: #fff;
-  display: block;
-}
-
-.index .notice {
-  margin: 20px auto;
-  padding: 15px 0;
-  text-align: center;
-  border: 1px solid #000;
-  border-width: 1px 0;
-  background: #666;
-}
- */
-
- html,body{
+html,body{
     width:100%;
     height:100%;
     background-color:#222;
@@ -60,6 +48,19 @@
     padding:40px;
     background-color:#fff;
     box-sizing:border-box;
+
+    cursor: pointer;
+    /*x y z */
+    transform-origin: 0 0;
+    transform-style: preserve-3d;
+    /*图片排布的动画效果
+        transform翻转动画效果
+    */
+    transition: transform .6s ease-in-out, left .6s ease-in-out, top .6s ease-in-out;
+}
+.is-inverse{
+    /*transform(x y)在2d平面中移动*/
+    transform: translate(320px) rotateY(180deg);
 }
 .img-figure img{
     width:240px;
@@ -72,6 +73,28 @@ figcaption{
     color:#a7a0a2;
     font-size:16px;
 }
+.img-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top:0;
+    left: 0;
+
+    padding: 50px 40px;
+    overflow: auto;
+
+    color:#a7a0a2;
+    font-size: 22px;
+    line-height: 1.25;
+    text-align: center;
+    background-color: #fff;
+
+    box-sizing: border-box;
+
+    /*先开始时.img-back，旋转了180度，因为translateZ(1px)，位于正面图像的下方
+    /*当.img-figure旋转时，.img-back又旋转了180度，旋转度数为360,因为translateZ(1px)，位于正面图像的上方*/
+    transform: rotateY(180deg) translateZ(1px);
+}
   /* iamge -- end */
 
   /* controller -- start */
@@ -82,5 +105,39 @@ figcaption{
     z-index:101;
     width:100%;
     text-align:center;
+}
+.controller-unit{
+    display: inline-block;
+    width: 30px;
+    height: 30px;
+    margin: 0 5px;
+    text-align: center;
+    vertical-align: middle;
+    cursor: pointer;
+    background-color: #aaa;
+    border-radius: 50%;
+    transform: scale(.5);
+    transition: transform .6s ease-in-out, background-color .3s;
+}
+.controller-unit.is-center{
+    background-color: #888;
+    transform: scale(1);//
+    color :#fff;
+}
+.controller-unit.is-center::before{
+    font-family: "icons-turn-arrow";
+    content: "\e900";
+    color: #FFF;
+    line-height: 30px;
+    /* 开启chrome字体渲染的灰接平滑 */
+    -webk-font-smoothing: antialiased;
+    /* 开启Firefox在mac上的灰接平滑 */
+    -moz-osx-font-smoothing: grayscale;
+}
+    /*翻转之后控制导航的变化*/
+.controller-unit.is-inverse{
+    background-color: #555;
+    /*沿着Y轴旋转180度*/
+    transform: rotateY(180deg);
 }
   /* controller -- end */
